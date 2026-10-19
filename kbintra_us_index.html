@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KB Kookmin Bank USA Employee Portal (Intranet)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        kb: {
+                            yellow: '#FFBC00',
+                            yellowHover: '#E5A900',
+                            charcoal: '#26282C',
+                            charcoalLight: '#3A3D42',
+                            grayBg: '#F4F5F8',
+                            grayBorder: '#E2E8F0',
+                            grayText: '#64748B',
+                            darkText: '#1E293B',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F4F5F8;
+            color: #1E293B;
+        }
+        /* Custom scrollbar for inner scrollable components */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F1F5F9;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+        .watermark {
+            background-image: repeating-linear-gradient(
+                45deg,
+                rgba(38, 40, 44, 0.03),
+                rgba(38, 40, 44, 0.03) 150px,
+                transparent 150px,
+                transparent 300px
+            );
+        }
+    </style>
+</head>
+<body class="bg-kb-grayBg flex flex-col h-screen overflow-hidden watermark select-none">
+
+    <!-- Security Warning Banner -->
+    <div class="bg-kb-charcoal text-white px-4 py-1.5 text-xs flex justify-between items-center z-50 border-b border-gray-700">
+        <div class="flex items-center space-x-2">
+            <span class="bg-red-600 text-white font-bold px-1.5 py-0.5 rounded text-[10px] tracking-wider">CONFIDENTIAL</span>
+            <span class="text-gray-300 font-medium">This system is for authorized KB Kookmin Bank USA employees only. Screen capture or unauthorized disclosure may result in legal action.</span>
+        </div>
+        <div class="flex items-center space-x-4 text-gray-400 font-mono text-[11px]">
+            <span>Your IP: <strong class="text-kb-yellow">10.1.105.200</strong></span>
+            <span>|</span>
+            <span>Secure Session: <span id="sessionTimer" class="text-emerald-400 font-bold">59:50</span></span>
+            <button onclick="extendSession()" class="bg-gray-700 hover:bg-gray-600 text-gray-200 px-2 py-0.5 rounded text-[10px] transition">Extend</button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white border-b border-kb-grayBorder px-6 py-2.5 flex items-center justify-between z-40 shadow-sm shrink-0">
+        <!-- Left: Logo & Security Level -->
+        <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-2 cursor-pointer" onclick="switchMainTab('dashboard')">
+                <div class="w-8 h-8 rounded-lg bg-kb-yellow flex items-center justify-center font-black text-kb-charcoal text-xl shadow-sm">
+                    KB
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-bold text-lg text-kb-charcoal leading-none tracking-tight">Kookmin Bank USA</span>
+                    <span class="text-[10px] text-kb-grayText tracking-widest uppercase font-semibold mt-0.5">Employees Intranet</span>
+                </div>
+            </div>
+            <span class="border-l border-gray-200 h-6"></span>
+            <span class="bg-amber-100 text-amber-800 border border-amber-300 text-xs font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                <i class="fa-solid fa-shield-halved text-amber-600"></i> Security Level: 1
+            </span>
+        </div>
+
+        <!-- Center: Global Search -->
+        <div class="flex-1 max-w-md mx-8 relative">
+            <div class="relative flex items-center">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 text-gray-400 text-sm"></i>
+                <input type="text" id="globalSearch" placeholder="Search employees, lending/deposit policies, approvals, forms..."
+                    class="w-full pl-10 pr-10 py-1.5 bg-gray-100 focus:bg-white text-sm rounded-full border border-transparent focus:border-kb-yellow focus:outline-none transition-all shadow-inner">
+                <span class="absolute right-3 text-xs bg-gray-200 text-gray-500 px-1.5 py-0.5 rounded font-mono">⌘K</span>
+            </div>
+        </div>
+
+        <!-- Right: Employee Profile & Status -->
+        <div class="flex items-center space-x-5">
+            <!-- Notifications -->
+            <div class="flex items-center space-x-2 border-r border-gray-200 pr-4">
+                <button class="relative p-2 text-gray-500 hover:text-kb-charcoal hover:bg-gray-100 rounded-full transition" title="Approval Alerts">
+                    <i class="fa-regular fa-file-lines text-lg"></i>
+                    <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white"></span>
+                </button>
+                <button class="relative p-2 text-gray-500 hover:text-kb-charcoal hover:bg-gray-100 rounded-full transition" title="Company Mail">
+                    <i class="fa-regular fa-envelope text-lg"></i>
+                    <span class="absolute top-1 right-1 px-1 py-0.2 bg-kb-yellow text-kb-charcoal text-[10px] font-bold rounded-full border border-white">3</span>
+                </button>
+                <button class="relative p-2 text-gray-500 hover:text-kb-charcoal hover:bg-gray-100 rounded-full transition" title="Work Notifications">
+                    <i class="fa-regular fa-bell text-lg"></i>
+                    <span class="absolute top-1 right-1 w-2 h-2 bg-emerald-500 rounded-full ring-2 ring-white"></span>
+                </button>
+            </div>
+
+            <!-- Work Status Selector -->
+            <div class="relative">
+                <select id="workStatusSelect" onchange="updateWorkStatus(this.value)" class="text-xs font-semibold pl-7 pr-3 py-1.5 rounded-lg border border-gray-300 bg-white text-kb-charcoal focus:outline-none focus:ring-1 focus:ring-kb-yellow cursor-pointer shadow-sm">
+                    <option value="working" selected>🟢 Working</option>
+                    <option value="away">🟡 Away</option>
+                    <option value="meal">🟠 Lunch / Break</option>
+                    <option value="out">🔴 Out of Office / Travel</option>
+                </select>
+            </div>
+
+            <!-- Profile Card -->
+            <div class="flex items-center space-x-3 pl-1">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Profile" class="w-9 h-9 rounded-full object-cover ring-2 ring-kb-yellow">
+                    <span id="statusIndicator" class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+                </div>
+                <div class="text-left leading-tight">
+                    <div class="flex items-center gap-1.5">
+                        <span class="font-bold text-sm text-kb-charcoal">Daniel Hong</span>
+                        <span class="text-xs text-gray-500">Senior Manager</span>
+                    </div>
+                    <p class="text-[11px] text-kb-grayText font-medium">Digital Banking <span class="text-gray-300">|</span> K1234567</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout (Sidebar + Content) -->
+    <div class="flex flex-1 overflow-hidden">
+
+        <!-- Left Sidebar -->
+        <aside class="w-64 bg-kb-charcoal text-gray-300 flex flex-col shrink-0 justify-between select-none">
+            <div class="p-4 space-y-6 overflow-y-auto">
+
+                <!-- 1. Approvals -->
+                <div>
+                    <h3 class="px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Approvals</h3>
+                    <nav class="space-y-1">
+                        <a href="#" onclick="switchMainTab('approval')" class="flex items-center justify-between px-3 py-2 text-sm font-medium rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition group">
+                            <span class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-file-signature text-kb-yellow"></i>
+                                Pending Approvals
+                            </span>
+                            <span class="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">3</span>
+                        </a>
+                        <a href="#" class="flex items-center justify-between px-3 py-2 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition">
+                            <span class="flex items-center gap-2.5">
+                                <i class="fa-regular fa-paper-plane text-gray-400"></i>
+                                My Submissions
+                            </span>
+                        </a>
+                        <a href="#" class="flex items-center justify-between px-3 py-2 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition">
+                            <span class="flex items-center gap-2.5">
+                                <i class="fa-regular fa-circle-check text-gray-400"></i>
+                                Completed Approvals
+                            </span>
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- 2. Business Support -->
+                <div>
+                    <h3 class="px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Business Support Systems</h3>
+                    <nav class="space-y-1">
+                        <a href="#" class="flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition">
+                            <i class="fa-solid fa-scale-balanced text-kb-yellow"></i>
+                            Lending / Deposits / FX Guide
+                        </a>
+                        <a href="#" class="flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition">
+                            <i class="fa-solid fa-chart-line text-kb-yellow"></i>
+                            Credit Underwriting System
+                        </a>
+                        <a href="#" class="flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition">
+                            <i class="fa-solid fa-book-open text-kb-yellow"></i>
+                            Teller Operations Manual
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- 3. HR -->
+                <div>
+                    <h3 class="px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">HR &amp; MyPage</h3>
+                    <nav class="space-y-1">
+                        <a href="#" class="flex items-center justify-between px-3 py-2 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition">
+                            <span class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-user-clock text-blue-400"></i>
+                                Time &amp; Attendance / PTO Request
+                            </span>
+                        </a>
+                        <a href="#" class="flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition">
+                            <i class="fa-solid fa-receipt text-blue-400"></i>
+                            Pay Stubs
+                        </a>
+                        <a href="#" class="flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition">
+                            <i class="fa-solid fa-graduation-cap text-blue-400"></i>
+                            KB Learning Center / Training
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- 4. IT / Security -->
+                <div>
+                    <h3 class="px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">IT &amp; Security</h3>
+                    <nav class="space-y-1">
+                        <a href="#" class="flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition">
+                            <i class="fa-solid fa-headset text-emerald-400"></i>
+                            IT Help Desk (1-800-555-0150)
+                        </a>
+                        <a href="#" class="flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition">
+                            <i class="fa-solid fa-key text-emerald-400"></i>
+                            Account &amp; Access Requests
+                        </a>
+                        <a href="#" class="flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition">
+                            <i class="fa-solid fa-shield-virus text-emerald-400"></i>
+                            Daily Security Self-Check
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- 5. Community -->
+                <div>
+                    <h3 class="px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Community</h3>
+                    <nav class="space-y-1">
+                        <a href="#" class="flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition">
+                            <i class="fa-solid fa-comments text-purple-400"></i>
+                            Employee Forum (Open Board)
+                        </a>
+                        <a href="#" class="flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition">
+                            <i class="fa-solid fa-heart text-purple-400"></i>
+                            Celebrations &amp; Condolences
+                        </a>
+                    </nav>
+                </div>
+
+            </div>
+
+            <!-- Bottom Quick Links -->
+            <div class="p-4 border-t border-gray-700/60 bg-gray-900/40 text-xs text-gray-400 space-y-2">
+                <div class="flex justify-between items-center">
+                    <span>Remote Support System</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span>Main Office Line</span>
+                    <span class="text-kb-yellow font-mono">(213) 555-0100</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 p-6 overflow-y-auto bg-kb-grayBg space-y-6">
+
+            <!-- 1. Quick Access Banner -->
+            <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div onclick="openApprovalModal('AP20260921-0021')" class="bg-white p-4 rounded-xl border border-kb-grayBorder shadow-sm hover:shadow-md transition cursor-pointer flex items-center justify-between group">
+                    <div class="space-y-1">
+                        <p class="text-xs font-semibold text-kb-grayText">Pending Approvals</p>
+                        <p class="text-2xl font-bold text-kb-charcoal group-hover:text-amber-600 transition">3 <span class="text-xs font-normal text-gray-500">items</span></p>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 text-xl group-hover:scale-110 transition">
+                        <i class="fa-solid fa-signature"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl border border-kb-grayBorder shadow-sm hover:shadow-md transition cursor-pointer flex items-center justify-between group">
+                    <div class="space-y-1">
+                        <p class="text-xs font-semibold text-kb-grayText">Unread Company Mail</p>
+                        <p class="text-2xl font-bold text-kb-charcoal group-hover:text-blue-600 transition">5 <span class="text-xs font-normal text-gray-500">emails</span></p>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 text-xl group-hover:scale-110 transition">
+                        <i class="fa-solid fa-envelope-open-text"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl border border-kb-grayBorder shadow-sm hover:shadow-md transition cursor-pointer flex items-center justify-between group">
+                    <div class="space-y-1">
+                        <p class="text-xs font-semibold text-kb-grayText">Remaining PTO</p>
+                        <p class="text-2xl font-bold text-kb-charcoal group-hover:text-emerald-600 transition">11.5 <span class="text-xs font-normal text-gray-500">days</span></p>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 text-xl group-hover:scale-110 transition">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl border border-kb-grayBorder shadow-sm hover:shadow-md transition cursor-pointer flex items-center justify-between group">
+                    <div class="space-y-1">
+                        <p class="text-xs font-semibold text-kb-grayText">Today's Security Check</p>
+                        <p class="text-sm font-bold text-emerald-600 flex items-center gap-1 mt-2">
+                            <i class="fa-solid fa-circle-check"></i> Completed (5:00 PM)
+                        </p>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600 text-xl group-hover:scale-110 transition">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Main Widget Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <!-- [Left 2 columns] Approvals & Notices -->
+                <div class="lg:col-span-2 space-y-6">
+
+                    <!-- Approvals Card -->
+                    <div class="bg-white rounded-xl border border-kb-grayBorder shadow-sm overflow-hidden">
+                        <div class="p-4 border-b border-kb-grayBorder flex justify-between items-center bg-gray-50/50">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2.5 h-2.5 bg-kb-yellow rounded-full"></span>
+                                <h2 class="font-bold text-kb-charcoal text-base">Pending Approvals</h2>
+                                <span class="text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full font-semibold">3</span>
+                            </div>
+                            <button class="text-xs font-semibold text-kb-grayText hover:text-kb-charcoal flex items-center gap-1">
+                                View All <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                            </button>
+                        </div>
+                        <div class="divide-y divide-gray-100">
+                            <!-- Approval Item 1 -->
+                            <div onclick="openApprovalModal('AP20260921-0021')" class="p-4 hover:bg-amber-50/40 transition cursor-pointer flex items-center justify-between group">
+                                <div class="space-y-1">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="bg-red-100 text-red-700 text-[11px] font-semibold px-2 py-0.5 rounded">Urgent</span>
+                                        <span class="text-xs text-kb-grayText">Submitted by: Minjun Kim, Manager (IT Operations)</span>
+                                        <span class="text-xs text-gray-300">|</span>
+                                        <span class="text-xs text-kb-grayText font-mono">09/21/2026 1:40 PM</span>
+                                    </div>
+                                    <h3 class="text-sm font-bold text-kb-charcoal group-hover:text-amber-700 transition">
+                                        [Proposal] Q4 2026 Next-Gen Retail Banking System Security Server Expansion
+                                    </h3>
+                                </div>
+                                <button class="px-3 py-1.5 bg-kb-yellow hover:bg-kb-yellowHover text-kb-charcoal font-bold text-xs rounded-lg shadow-sm transition">
+                                    Review
+                                </button>
+                            </div>
+
+                            <!-- Approval Item 2 -->
+                            <div onclick="openApprovalModal('AP20260921-0018')" class="p-4 hover:bg-amber-50/40 transition cursor-pointer flex items-center justify-between group">
+                                <div class="space-y-1">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="bg-gray-100 text-gray-700 text-[11px] font-semibold px-2 py-0.5 rounded">Standard</span>
+                                        <span class="text-xs text-kb-grayText">Submitted by: Sujin Lee, Assistant Manager (Digital Banking)</span>
+                                        <span class="text-xs text-gray-300">|</span>
+                                        <span class="text-xs text-kb-grayText font-mono">09/21/2026 11:15 AM</span>
+                                    </div>
+                                    <h3 class="text-sm font-bold text-kb-charcoal group-hover:text-amber-700 transition">
+                                        [Expense Claim] Marketing Infrastructure Spend for Digital Banking Enhancement Project
+                                    </h3>
+                                </div>
+                                <button class="px-3 py-1.5 bg-kb-yellow hover:bg-kb-yellowHover text-kb-charcoal font-bold text-xs rounded-lg shadow-sm transition">
+                                    Review
+                                </button>
+                            </div>
+
+                            <!-- Approval Item 3 -->
+                            <div onclick="openApprovalModal('AP20260920-0089')" class="p-4 hover:bg-amber-50/40 transition cursor-pointer flex items-center justify-between group">
+                                <div class="space-y-1">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="bg-gray-100 text-gray-700 text-[11px] font-semibold px-2 py-0.5 rounded">Attendance</span>
+                                        <span class="text-xs text-kb-grayText">Submitted by: Sungchul Park, Specialist (Credit Underwriting)</span>
+                                        <span class="text-xs text-gray-300">|</span>
+                                        <span class="text-xs text-kb-grayText font-mono">09/20/2026 5:02 PM</span>
+                                    </div>
+                                    <h3 class="text-sm font-bold text-kb-charcoal group-hover:text-amber-700 transition">
+                                        [PTO Request] H2 2026 Special Leave (10/02/2026 - 10/04/2026)
+                                    </h3>
+                                </div>
+                                <button class="px-3 py-1.5 bg-kb-yellow hover:bg-kb-yellowHover text-kb-charcoal font-bold text-xs rounded-lg shadow-sm transition">
+                                    Review
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notices Tabs -->
+                    <div class="bg-white rounded-xl border border-kb-grayBorder shadow-sm overflow-hidden">
+                        <div class="border-b border-kb-grayBorder flex items-center justify-between px-4 bg-gray-50/50">
+                            <!-- Tab Buttons -->
+                            <div class="flex space-x-6">
+                                <button onclick="switchNoticeTab('all')" id="tab-all" class="py-3 text-sm font-bold border-b-2 border-kb-yellow text-kb-charcoal">
+                                    Company Announcements
+                                </button>
+                                <button onclick="switchNoticeTab('compliance')" id="tab-compliance" class="py-3 text-sm font-semibold text-kb-grayText hover:text-kb-charcoal border-b-2 border-transparent">
+                                    Compliance / Security Policy
+                                </button>
+                                <button onclick="switchNoticeTab('hr')" id="tab-hr" class="py-3 text-sm font-semibold text-kb-grayText hover:text-kb-charcoal border-b-2 border-transparent">
+                                    HR / Appointments
+                                </button>
+                            </div>
+                            <span class="text-xs text-gray-400 font-mono">As of 09/21/2026</span>
+                        </div>
+
+                        <!-- Notice Content Lists -->
+                        <div id="notice-content-list" class="p-4 space-y-3">
+                            <div class="flex items-center justify-between py-1.5 border-b border-gray-100 hover:bg-gray-50 px-2 rounded">
+                                <div class="flex items-center space-x-3">
+                                    <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-amber-100 text-amber-800">Important</span>
+                                    <a href="#" class="text-sm text-kb-charcoal hover:underline font-medium">[Compliance] Enhanced Internal Control Monitoring for 2026 Consumer Financial Protection Requirements</a>
+                                </div>
+                                <span class="text-xs text-kb-grayText font-mono">09/21/2026</span>
+                            </div>
+
+                            <div class="flex items-center justify-between py-1.5 border-b border-gray-100 hover:bg-gray-50 px-2 rounded">
+                                <div class="flex items-center space-x-3">
+                                    <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-blue-100 text-blue-800">IT</span>
+                                    <a href="#" class="text-sm text-kb-charcoal hover:underline font-medium">[System Maintenance] Some Services Restricted During Weekend Core Banking DB Performance Optimization</a>
+                                </div>
+                                <span class="text-xs text-kb-grayText font-mono">09/20/2026</span>
+                            </div>
+
+                            <div class="flex items-center justify-between py-1.5 border-b border-gray-100 hover:bg-gray-50 px-2 rounded">
+                                <div class="flex items-center space-x-3">
+                                    <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-gray-100 text-gray-700">HR</span>
+                                    <a href="#" class="text-sm text-kb-charcoal hover:underline font-medium">H2 2026 Employee Annual Health Screening Schedule and Booking System Now Open</a>
+                                </div>
+                                <span class="text-xs text-kb-grayText font-mono">09/18/2026</span>
+                            </div>
+
+                            <div class="flex items-center justify-between py-1.5 hover:bg-gray-50 px-2 rounded">
+                                <div class="flex items-center space-x-3">
+                                    <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-emerald-100 text-emerald-800">Training</span>
+                                    <a href="#" class="text-sm text-kb-charcoal hover:underline font-medium">[KB Learning Center] Enrollment Open: AI in Financial Services Skills Certificate Program</a>
+                                </div>
+                                <span class="text-xs text-kb-grayText font-mono">09/17/2026</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- [Right 1 column] Market Dashboard, Directory, Schedule -->
+                <div class="space-y-6">
+
+                    <!-- Market Dashboard -->
+                    <div class="bg-kb-charcoal text-white p-5 rounded-xl shadow-md">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-sm text-kb-yellow flex items-center gap-2">
+                                <i class="fa-solid fa-chart-line"></i> Market Overview (Real-time)
+                            </h3>
+                            <span class="text-[10px] text-gray-400 font-mono">As of 4:00 PM ET close</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-gray-800/80 p-3 rounded-lg border border-gray-700">
+                                <p class="text-[11px] text-gray-400">USD / KRW (FX Rate)</p>
+                                <p class="text-lg font-bold text-white mt-1">1,332.50 <span class="text-xs text-red-400 font-semibold">▲ 2.50</span></p>
+                            </div>
+                            <div class="bg-gray-800/80 p-3 rounded-lg border border-gray-700">
+                                <p class="text-[11px] text-gray-400">Fed Funds Rate</p>
+                                <p class="text-lg font-bold text-white mt-1">3.75 % <span class="text-xs text-gray-400 font-normal border border-gray-600 px-1 rounded">Hold</span></p>
+                            </div>
+                            <div class="bg-gray-800/80 p-3 rounded-lg border border-gray-700">
+                                <p class="text-[11px] text-gray-400">US Treasury (3-Yr)</p>
+                                <p class="text-lg font-bold text-white mt-1">3.915 % <span class="text-xs text-blue-400 font-semibold">▼ 0.012</span></p>
+                            </div>
+                            <div class="bg-gray-800/80 p-3 rounded-lg border border-gray-700">
+                                <p class="text-[11px] text-gray-400">S&amp;P 500</p>
+                                <p class="text-lg font-bold text-white mt-1">5,598.42 <span class="text-xs text-red-400 font-semibold">▲ 14.20</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Employee Directory -->
+                    <div class="bg-white p-4 rounded-xl border border-kb-grayBorder shadow-sm space-y-3">
+                        <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                            <h3 class="font-bold text-sm text-kb-charcoal flex items-center gap-2">
+                                <i class="fa-solid fa-address-book text-kb-yellow"></i> Employee Quick Search
+                            </h3>
+                            <span class="text-xs text-kb-grayText">Ext. / Email</span>
+                        </div>
+
+                        <!-- Search Input -->
+                        <div class="relative">
+                            <input type="text" id="employeeSearchInput" onkeyup="filterEmployees()" placeholder="Enter name or department..."
+                                class="w-full text-xs pl-8 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-kb-yellow">
+                            <i class="fa-solid fa-search absolute left-2.5 top-2.5 text-gray-400 text-xs"></i>
+                        </div>
+
+                        <!-- Results List -->
+                        <div id="employeeList" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                            <div class="emp-item flex items-center justify-between p-2 hover:bg-gray-50 rounded border border-gray-100">
+                                <div class="leading-tight">
+                                    <span class="text-xs font-bold text-kb-charcoal emp-name">Dongwon Kang</span>
+                                    <span class="text-[11px] text-gray-500 emp-dept">Team Lead / Credit Underwriting</span>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-xs font-mono font-bold text-kb-charcoal">☎ Ext. 2104</p>
+                                    <p class="text-[10px] text-blue-600 cursor-pointer hover:underline">dw.kang@kbkookmin-usa.com</p>
+                                </div>
+                            </div>
+
+                            <div class="emp-item flex items-center justify-between p-2 hover:bg-gray-50 rounded border border-gray-100">
+                                <div class="leading-tight">
+                                    <span class="text-xs font-bold text-kb-charcoal emp-name">Seoyeon Yoon</span>
+                                    <span class="text-[11px] text-gray-500 emp-dept">Principal / Compliance</span>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-xs font-mono font-bold text-kb-charcoal">☎ Ext. 3391</p>
+                                    <p class="text-[10px] text-blue-600 cursor-pointer hover:underline">sy.yoon@kbkookmin-usa.com</p>
+                                </div>
+                            </div>
+
+                            <div class="emp-item flex items-center justify-between p-2 hover:bg-gray-50 rounded border border-gray-100">
+                                <div class="leading-tight">
+                                    <span class="text-xs font-bold text-kb-charcoal emp-name">Jinwoo Choi</span>
+                                    <span class="text-[11px] text-gray-500 emp-dept">Senior Manager / IT Operations</span>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-xs font-mono font-bold text-kb-charcoal">☎ Ext. 8812</p>
+                                    <p class="text-[10px] text-blue-600 cursor-pointer hover:underline">jw.choi@kbkookmin-usa.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Weekly Schedule -->
+                    <div class="bg-white p-4 rounded-xl border border-kb-grayBorder shadow-sm space-y-3">
+                        <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                            <h3 class="font-bold text-sm text-kb-charcoal flex items-center gap-2">
+                                <i class="fa-regular fa-calendar-check text-kb-yellow"></i> This Week's Schedule
+                            </h3>
+                            <span class="text-xs text-blue-600 font-semibold cursor-pointer">+ Add Event</span>
+                        </div>
+
+                        <ul class="space-y-2.5 text-xs">
+                            <li class="flex items-start gap-2.5">
+                                <span class="bg-gray-100 text-kb-charcoal font-bold px-2 py-0.5 rounded shrink-0 font-mono">09/22 (Tue)</span>
+                                <div>
+                                    <p class="font-medium text-kb-charcoal">Q3 Business Performance Monitoring Meeting (HQ)</p>
+                                    <p class="text-[11px] text-gray-400">2:00 PM | 10th Floor Main Conference Room</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <span class="bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded shrink-0 font-mono">09/24 (Thu)</span>
+                                <div>
+                                    <p class="font-medium text-kb-charcoal">All-Branch Daily Information Security Self-Check</p>
+                                    <p class="text-[11px] text-gray-400">Must be completed before 6:00 PM</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <span class="bg-gray-100 text-kb-charcoal font-bold px-2 py-0.5 rounded shrink-0 font-mono">09/25 (Fri)</span>
+                                <div>
+                                    <p class="font-medium text-kb-charcoal">Month-End Funds Settlement &amp; Teller Closing Review</p>
+                                    <p class="text-[11px] text-gray-400">All branches</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Approval Modal -->
+    <div id="approvalModal" class="fixed inset-0 bg-kb-charcoal/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-xl w-full overflow-hidden border border-gray-200 transform transition-all">
+            <!-- Modal Header -->
+            <div class="bg-kb-charcoal text-white px-6 py-4 flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <span class="bg-kb-yellow text-kb-charcoal font-bold text-xs px-2 py-0.5 rounded">Approval Details</span>
+                    <span id="modalDocId" class="text-xs font-mono text-gray-300">AP20260921-0021</span>
+                </div>
+                <button onclick="closeApprovalModal()" class="text-gray-400 hover:text-white text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 space-y-4 max-h-[70vh] overflow-y-auto text-sm">
+                <div class="border-b border-gray-200 pb-3">
+                    <h2 id="modalDocTitle" class="text-base font-bold text-kb-charcoal">
+                        [Proposal] Q4 2026 Next-Gen Retail Banking System Security Server Expansion
+                    </h2>
+                    <div class="mt-2 flex items-center justify-between text-xs text-kb-grayText">
+                        <span>Department: IT Operations (Minjun Kim, Manager)</span>
+                        <span>Submitted: 09/21/2026 1:40 PM</span>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-lg space-y-2 border border-gray-100 text-xs text-gray-700">
+                    <p class="font-bold text-kb-charcoal">[Summary]</p>
+                    <p class="leading-relaxed">
+                        Due to a recent surge in online banking and KB StarBanking traffic, the security and authentication server infrastructure must be expanded within Q4.
+                        This is a request for approval of a security server expansion with a total budget of $90,000.
+                    </p>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="block text-xs font-bold text-kb-charcoal">Approval Comments (Optional)</label>
+                    <textarea id="approvalComment" rows="3" placeholder="Enter your reason for approval or rejection..."
+                        class="w-full text-xs p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-kb-yellow"></textarea>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-gray-100 px-6 py-3.5 flex justify-end space-x-2 border-t border-gray-200">
+                <button onclick="closeApprovalModal()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold text-xs rounded-lg transition">
+                    Cancel
+                </button>
+                <button onclick="processApproval('reject')" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-lg shadow-sm transition">
+                    Reject
+                </button>
+                <button onclick="processApproval('approve')" class="px-5 py-2 bg-kb-yellow hover:bg-kb-yellowHover text-kb-charcoal font-bold text-xs rounded-lg shadow-sm transition">
+                    Approve (e-Signature)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script>
+        // Session timer countdown
+        let sessionSeconds = 3590;
+        const timerElement = document.getElementById('sessionTimer');
+
+        setInterval(() => {
+            if (sessionSeconds > 0) {
+                sessionSeconds--;
+                const minutes = Math.floor(sessionSeconds / 60);
+                const seconds = sessionSeconds % 60;
+                timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
+        }, 1000);
+
+        function extendSession() {
+            sessionSeconds = 3600;
+            alert('Your secure session has been extended by 60 minutes.');
+        }
+
+        // Tab navigation placeholder (was referenced but undefined in the original)
+        function switchMainTab(tab) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Work status indicator
+        function updateWorkStatus(status) {
+            const indicator = document.getElementById('statusIndicator');
+            if (status === 'working') {
+                indicator.className = "absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full";
+            } else if (status === 'away') {
+                indicator.className = "absolute bottom-0 right-0 w-2.5 h-2.5 bg-amber-500 border-2 border-white rounded-full";
+            } else if (status === 'meal') {
+                indicator.className = "absolute bottom-0 right-0 w-2.5 h-2.5 bg-orange-500 border-2 border-white rounded-full";
+            } else {
+                indicator.className = "absolute bottom-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-white rounded-full";
+            }
+        }
+
+        // Employee directory quick search
+        function filterEmployees() {
+            const input = document.getElementById('employeeSearchInput').value.toLowerCase();
+            const items = document.querySelectorAll('.emp-item');
+
+            items.forEach(item => {
+                const name = item.querySelector('.emp-name').textContent.toLowerCase();
+                const dept = item.querySelector('.emp-dept').textContent.toLowerCase();
+                if (name.includes(input) || dept.includes(input)) {
+                    item.style.display = "flex";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+
+        // Notice tab switching UI
+        function switchNoticeTab(type) {
+            const tabs = ['all', 'compliance', 'hr'];
+            tabs.forEach(tab => {
+                const btn = document.getElementById(`tab-${tab}`);
+                if (tab === type) {
+                    btn.className = "py-3 text-sm font-bold border-b-2 border-kb-yellow text-kb-charcoal";
+                } else {
+                    btn.className = "py-3 text-sm font-semibold text-kb-grayText hover:text-kb-charcoal border-b-2 border-transparent";
+                }
+            });
+        }
+
+        // Approval modal open / close
+        function openApprovalModal(docId) {
+            document.getElementById('modalDocId').textContent = docId;
+            document.getElementById('approvalModal').classList.remove('hidden');
+            document.getElementById('approvalModal').classList.add('flex');
+        }
+
+        function closeApprovalModal() {
+            document.getElementById('approvalModal').classList.add('hidden');
+            document.getElementById('approvalModal').classList.remove('flex');
+            document.getElementById('approvalComment').value = '';
+        }
+
+        function processApproval(action) {
+            const comment = document.getElementById('approvalComment').value;
+            if (action === 'approve') {
+                alert('Your e-signature has been recorded and the request is approved.');
+            } else {
+                alert('The request has been rejected.');
+            }
+            closeApprovalModal();
+        }
+
+        // Keyboard shortcut (Cmd+K / Ctrl+K focuses search)
+        window.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('globalSearch').focus();
+            }
+        });
+    </script>
+</body>
+</html>
