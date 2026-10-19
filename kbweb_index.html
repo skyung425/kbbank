@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KB국민은행 - 세상을 바꾸는 금융</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .kb-yellow { background-color: #FFBC00; }
+        .kb-yellow-text { color: #FFBC00; }
+        .kb-dark { background-color: #26282C; }
+        .kb-dark-text { color: #26282C; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+
+    <!-- Top Utility Bar -->
+    <div class="bg-gray-100 border-b border-gray-200 text-xs py-2 px-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex space-x-4 text-gray-600">
+                <span class="font-bold text-gray-900">KB금융그룹</span>
+                <a href="#" class="hover:text-yellow-600">KB증권</a>
+                <a href="#" class="hover:text-yellow-600">KB손해보험</a>
+                <a href="#" class="hover:text-yellow-600">KB국민카드</a>
+            </div>
+            <div class="flex space-x-4 text-gray-600">
+                <a href="#" class="hover:text-yellow-600">로그인</a>
+                <a href="#" class="hover:text-yellow-600">회원가입</a>
+                <a href="#" class="hover:text-yellow-600">인증센터</a>
+                <a href="#" class="hover:text-yellow-600">고객센터</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center space-x-3">
+                <div class="kb-yellow text-gray-900 font-black text-2xl px-3 py-1 rounded shadow-sm tracking-tighter">KB</div>
+                <span class="text-xl font-bold tracking-tight text-gray-900">국민은행</span>
+            </div>
+
+            <!-- Nav Links -->
+            <nav class="hidden md:flex space-x-8 font-medium text-gray-700">
+                <a href="#" class="hover:text-amber-500 transition">개인뱅킹</a>
+                <a href="#" class="hover:text-amber-500 transition">기업뱅킹</a>
+                <a href="#" class="hover:text-amber-500 transition">금융상품</a>
+                <a href="#" class="hover:text-amber-500 transition">자산관리</a>
+                <a href="#" class="hover:text-amber-500 transition">전체서비스</a>
+            </nav>
+
+            <!-- Quick Action -->
+            <div class="flex items-center space-x-3">
+                <button class="bg-amber-400 hover:bg-amber-500 text-gray-900 font-semibold px-4 py-2 rounded-lg text-sm transition shadow-sm">
+                    <i class="fa-solid fa-lock mr-1.5"></i> 간편인증 로그인
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section / Banner & Quick Simulator -->
+    <section class="bg-gradient-to-r from-gray-900 to-gray-800 text-white py-16 px-4">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+                <span class="bg-amber-400 text-gray-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">2026 KB Smart Service</span>
+                <h1 class="text-4xl md:text-5xl font-extrabold mt-4 leading-tight">
+                    세상을 바꾸는 금융,<br><span class="text-amber-400">당신의 평생 금융 파트너</span>
+                </h1>
+                <p class="text-gray-300 mt-4 text-lg">
+                    언제 어디서나 쉽고 안전한 디지털 뱅킹 경험을 만나보세요. 맞춤형 자산 관리부터 스마트 대출까지 완벽하게 지원합니다.
+                </p>
+                <div class="mt-8 flex space-x-4">
+                    <button class="bg-amber-400 text-gray-900 font-bold px-6 py-3 rounded-xl hover:bg-amber-300 transition">상품 둘러보기</button>
+                    <button class="border border-gray-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-gray-800 transition">지점/ATM 찾기</button>
+                </div>
+            </div>
+
+            <!-- Quick Transfer Simulator Widget -->
+            <div class="bg-white text-gray-900 p-6 rounded-2xl shadow-2xl">
+                <h3 class="text-lg font-bold border-b pb-3 mb-4 flex justify-between items-center">
+                    <span><i class="fa-solid fa-bolt text-amber-500 mr-2"></i> KB 간편 빠른조회/이체</span>
+                    <span class="text-xs text-gray-400 font-normal">안전보안 적용</span>
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">출금 계좌번호</label>
+                        <select class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2.5 text-sm font-medium">
+                            <option>KB Star 정기예금 (102-***-***102) - 14,250,000원</option>
+                            <option>KB Star 통장 (210-***-***505) - 3,120,400원</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">이체 금액 (원)</label>
+                        <input type="text" value="50,000" class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2.5 text-sm font-bold text-right">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">받는 분 통장 표시 내용</label>
+                        <input type="text" value="국민스터디" class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2.5 text-sm">
+                    </div>
+                    <button onclick="alert('간편 이체 시뮬레이션이 완료되었습니다!')" class="w-full bg-amber-400 hover:bg-amber-500 text-gray-900 font-bold p-3 rounded-lg transition shadow">
+                        즉시 이체하기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Menu Icons -->
+    <section class="max-w-7xl mx-auto px-4 -mt-8 relative z-10">
+        <div class="bg-white rounded-2xl shadow-xl grid grid-cols-2 md:grid-cols-6 gap-4 p-6 text-center">
+            <a href="#" class="p-4 rounded-xl hover:bg-amber-50 transition group">
+                <div class="w-12 h-12 mx-auto bg-amber-100 text-amber-600 rounded-full flex items-center justify-content text-xl mb-2 group-hover:bg-amber-400 group-hover:text-gray-900 transition"><i class="fa-solid fa-wallet"></i></div>
+                <span class="text-sm font-semibold text-gray-700">조회/이체</span>
+            </a>
+            <a href="#" class="p-4 rounded-xl hover:bg-amber-50 transition group">
+                <div class="w-12 h-12 mx-auto bg-amber-100 text-amber-600 rounded-full flex items-center justify-content text-xl mb-2 group-hover:bg-amber-400 group-hover:text-gray-900 transition"><i class="fa-solid fa-piggy-bank"></i></div>
+                <span class="text-sm font-semibold text-gray-700">예적금상품</span>
+            </a>
+            <a href="#" class="p-4 rounded-xl hover:bg-amber-50 transition group">
+                <div class="w-12 h-12 mx-auto bg-amber-100 text-amber-600 rounded-full flex items-center justify-content text-xl mb-2 group-hover:bg-amber-400 group-hover:text-gray-900 transition"><i class="fa-solid fa-house-chimney"></i></div>
+                <span class="text-sm font-semibold text-gray-700">KB주택대출</span>
+            </a>
+            <a href="#" class="p-4 rounded-xl hover:bg-amber-50 transition group">
+                <div class="w-12 h-12 mx-auto bg-amber-100 text-amber-600 rounded-full flex items-center justify-content text-xl mb-2 group-hover:bg-amber-400 group-hover:text-gray-900 transition"><i class="fa-solid fa-credit-card"></i></div>
+                <span class="text-sm font-semibold text-gray-700">KB국민카드</span>
+            </a>
+            <a href="#" class="p-4 rounded-xl hover:bg-amber-50 transition group">
+                <div class="w-12 h-12 mx-auto bg-amber-100 text-amber-600 rounded-full flex items-center justify-content text-xl mb-2 group-hover:bg-amber-400 group-hover:text-gray-900 transition"><i class="fa-solid fa-chart-line"></i></div>
+                <span class="text-sm font-semibold text-gray-700">펀드/증권</span>
+            </a>
+            <a href="#" class="p-4 rounded-xl hover:bg-amber-50 transition group">
+                <div class="w-12 h-12 mx-auto bg-amber-100 text-amber-600 rounded-full flex items-center justify-content text-xl mb-2 group-hover:bg-amber-400 group-hover:text-gray-900 transition"><i class="fa-solid fa-shield-halved"></i></div>
+                <span class="text-sm font-semibold text-gray-700">보험상품</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Popular Products Grid -->
+    <section class="max-w-7xl mx-auto px-4 py-16">
+        <div class="flex justify-between items-end mb-8">
+            <div>
+                <span class="text-amber-600 font-bold text-sm tracking-wider uppercase">KB Hot Products</span>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mt-1">지금 가장 사랑받는 금융 상품</h2>
+            </div>
+            <a href="#" class="text-sm font-semibold text-gray-600 hover:text-amber-600">전체보기 &rarr;</a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Card 1 -->
+            <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition">
+                <div class="bg-amber-500 p-6 text-gray-900">
+                    <span class="bg-white text-gray-900 text-xs font-bold px-2.5 py-1 rounded">예적금</span>
+                    <h3 class="text-xl font-bold mt-2">KB Star 정기예금</h3>
+                    <p class="text-sm text-gray-800 mt-1">안전하고 확실한 자산 증식의 기준</p>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-500">최고 금리 (연)</span>
+                        <span class="font-bold text-amber-600 text-lg">최고 연 3.85%</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-500">가입 기간</span>
+                        <span class="font-medium text-gray-800">1개월 ~ 36개월</span>
+                    </div>
+                    <button class="w-full bg-gray-900 hover:bg-gray-800 text-white font-semibold py-2.5 rounded-xl transition">상품 가입하기</button>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition">
+                <div class="bg-gray-900 p-6 text-white">
+                    <span class="bg-amber-400 text-gray-900 text-xs font-bold px-2.5 py-1 rounded">대출</span>
+                    <h3 class="text-xl font-bold mt-2">KB 직장인 우대 신용대출</h3>
+                    <p class="text-sm text-gray-300 mt-1">든든한 직장인을 위한 특별 금리 혜택</p>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-500">대한민국 최저 금리</span>
+                        <span class="font-bold text-amber-600 text-lg">연 4.12% ~</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-500">한도 금액</span>
+                        <span class="font-medium text-gray-800">최대 3억원</span>
+                    </div>
+                    <button class="w-full bg-amber-400 hover:bg-amber-500 text-gray-900 font-semibold py-2.5 rounded-xl transition">한도 조회하기</button>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition">
+                <div class="bg-amber-100 p-6 text-gray-900">
+                    <span class="bg-amber-500 text-white text-xs font-bold px-2.5 py-1 rounded">카드</span>
+                    <h3 class="text-xl font-bold mt-2">KB국민 톡톡 α 카드</h3>
+                    <p class="text-sm text-gray-700 mt-1">일상과 쇼핑에서 누리는 무한 할인</p>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-500">주요 혜택</span>
+                        <span class="font-bold text-gray-800 text-lg">온/오프라인 최대 10%</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-500">연회비</span>
+                        <span class="font-medium text-gray-800">국내전용 12,000원</span>
+                    </div>
+                    <button class="w-full bg-gray-900 hover:bg-gray-800 text-white font-semibold py-2.5 rounded-xl transition">카드 신청하기</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 text-sm py-12 px-4 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+                <h4 class="text-white font-bold mb-4">KB국민은행</h4>
+                <p class="text-xs leading-relaxed">서울특별시 영등포구 여의나루로 60<br>대표전화: 1588-9999 / 해외이용: +82-2-6300-9999</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">고객센터 안내</h4>
+                <p class="text-xs">뱅킹/카드/예적금: 1588-9999<br>대출상담: 1644-9999<br>평일 09:00 ~ 18:00</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">주요 서비스</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#" class="hover:text-white">인증센터</a></li>
+                    <li><a href="#" class="hover:text-white">금융상품공시</a></li>
+                    <li><a href="#" class="hover:text-white">소비자보호포털</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">KB Family</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#" class="hover:text-white">KB금융그룹</a></li>
+                    <li><a href="#" class="hover:text-white">KB증권</a></li>
+                    <li><a href="#" class="hover:text-white">KB국민카드</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto border-t border-gray-800 pt-6 text-center text-xs text-gray-500">
+            Copyright &copy; KB Kookmin Bank. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>
